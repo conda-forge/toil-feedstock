@@ -1,6 +1,6 @@
 # copied from https://github.com/bioconda/bioconda-recipes/blob/9c08a16bac9b7d0a076578823d5008b8bbfc466e/recipes/toil/meta.yaml
 {% set name = "toil" %}
-{% set version = "8.2.0" %}
+{% set version = "9.0.0" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b4f1e7e1a2847cc0c050ef80bc93c86b43831749bd0592c46fa03d6f93fa5251
+  sha256: 62fb3de88ccc212295d329d5a1f039f997ce7a28a3ecb27cc29d504322274210
 
 build:
   number: 0
@@ -42,6 +42,7 @@ requirements:
     - enlighten >=1.5.2,<2
     - configargparse >=1.7,<2
     - ruamel.yaml >=0.15
+    - pyyaml >=6,<7
     - typing-extensions >=4.6.2,<5
     - coloredlogs >=15,<16
     - prompt_toolkit >=3.0,<4
@@ -71,7 +72,7 @@ requirements:
     #cwl reqs
     - cwltool ==3.1.20250110105449
     - schema-salad >=8.4.20230128170514,<9
-    - galaxy-tool-util <25
+    - galaxy-tool-util <26
     - ruamel.yaml >=0.15,<=0.19
     - ruamel.yaml.clib >=0.2.6
     - networkx <4
@@ -83,7 +84,7 @@ requirements:
     - python-kubernetes >=12.0.1,<33
     - idna >=2
     #wdl reqs
-    - miniwdl ==1.12.1
+    - miniwdl ==1.13.0
 
 test:
   imports:
