@@ -1,6 +1,6 @@
 # copied from https://github.com/bioconda/bioconda-recipes/blob/9c08a16bac9b7d0a076578823d5008b8bbfc466e/recipes/toil/meta.yaml
 {% set name = "toil" %}
-{% set version = "8.0.0" %}
+{% set version = "8.2.0" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 01dfcf8abaf94609f9972b0a02cebef1afd247529b8acf81c16285470d34e2fd
+  sha256: b4f1e7e1a2847cc0c050ef80bc93c86b43831749bd0592c46fa03d6f93fa5251
 
 build:
   number: 0
@@ -36,7 +36,7 @@ requirements:
     - docker-py >=6.1.0,<8
     - urllib3 >=1.26.0,<3
     - python-dateutil
-    - psutil >=6.1.0,<7
+    - psutil >=6.1.0,<8
     - pypubsub >=4.0.3,<5
     - addict >=2.2.1,<2.5
     - enlighten >=1.5.2,<2
@@ -44,6 +44,7 @@ requirements:
     - ruamel.yaml >=0.15
     - typing-extensions >=4.6.2,<5
     - coloredlogs >=15,<16
+    - prompt_toolkit >=3.0,<4
     #mesos pymesos isn't available
     #server reqs
     # - wes-service is missing
@@ -111,6 +112,8 @@ test:
   requires:
     - pip
     - python {{ python_min }}
+    - pytest
+    - rsync
 
 about:
   home: 'https://toil.ucsc-cgl.org/'
