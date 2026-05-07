@@ -1,6 +1,6 @@
 # copied from https://github.com/bioconda/bioconda-recipes/blob/9c08a16bac9b7d0a076578823d5008b8bbfc466e/recipes/toil/meta.yaml
 {% set name = "toil" %}
-{% set version = "9.3.0" %}
+{% set version = "9.4.1" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: d932d52163bc11082b5b23c8e8f7e45e6819155993d2fc6496bb6cd03dc6e7b9
+  sha256: e384526f23edabc3af14b2891e27832c775892ebbb9c2757c320b2c7a4b7b2b3
 
 build:
   number: 0
