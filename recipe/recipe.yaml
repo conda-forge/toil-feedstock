@@ -35,8 +35,8 @@ requirements:
     - wheel
   run:
     - python >=${{ python_min }}
-    - dill >=0.3.2,<0.4
-    - requests >2,<=2.32.5
+    - dill >=0.3.2,<0.5
+    - requests >2,<=2.33.1
     - docker-py >=6.1.0,<8
     - urllib3 >=1.26.0,<3
     - python-dateutil
@@ -74,14 +74,14 @@ requirements:
     - google-cloud-storage >=2,<=2.8.0
     - google-auth >=2.18.1,<3
     #cwl reqs
-    - cwltool ==3.1.20260108082145
+    - cwltool ==3.2.20260413085819
     - schema-salad >=8.4.20230128170514,<9
-    - galaxy-tool-util <26
+    - galaxy-tool-util <27
     - ruamel.yaml >=0.15,<=0.19.1
     - ruamel.yaml.clib >=0.2.6
     - networkx <4
     - cachecontrol-with-filecache
-    - cwl-utils >=0.36
+    - cwl-utils >=0.41
     #htcondor reqs
     - python-htcondor >=23.6.0,<25
     #kubernetes reqs
@@ -89,6 +89,7 @@ requirements:
     - idna >=2
     #wdl reqs
     - miniwdl ==1.13.1
+    # - wdlparse ==0.1.0
 
 tests:
   - python:
