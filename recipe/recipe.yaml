@@ -107,7 +107,6 @@ tests:
         - toil.server.api_spec
         - toil.server.cli
         - toil.server.wes
-        - toil.test
         - toil.utils
         - toil.wdl
       pip_check: true
