@@ -12,11 +12,21 @@ package:
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
   sha256: dae9a12b0f277355170129be38406c831da47054758e64d6693e18d7e5b45d3f
+  patches:
+    - 0001-Avoid-AssertionError-Could-not-determine-AWS-availab.patch
+    - 0002-work-around-missing-stubserver.patch
+    - 0003-ToilCommandLineTool-fix-inits.patch
+    - 0004-count_cpu-support-cgroups-v2-default-maximum-bandwid.patch
+    - 0005-Missing-needs_docker.patch
 
 build:
   number: 1
   noarch: python
-  script: ${{ PYTHON }} -m pip install . --no-deps --no-build-isolation --no-cache-dir -vvv
+  script: |
+    sed -i "s/python = 'python3.*'/python = 'python3'/g" src/toil/version.py
+    sed -i "s/exactPython = 'python3.*'/exactPython = 'python3'/g" src/toil/version.py
+    sed -i "s/cwltool_version = '.*'/cwltool_version = '3.3.20260925135507'/g" src/toil/version.py
+    ${{ PYTHON }} -m pip install . --no-deps --no-build-isolation --no-cache-dir -vvv
   python:
     entry_points:
       - toil = toil.utils.toilMain:main
@@ -74,7 +84,7 @@ requirements:
     - google-cloud-storage >=2,<=2.8.0
     - google-auth >=2.18.1,<3
     #cwl reqs
-    - cwltool ==3.2.20260413085819
+    - cwltool ==3.3.20260925135507
     - schema-salad >=8.4.20230128170514,<9
     - galaxy-tool-util <27
     - ruamel.yaml >=0.15,<=0.19.1
@@ -118,12 +128,32 @@ tests:
       run:
         - pip
         - python ${{ python_min }}.*
-        - pytest
+        - pytest >=9,<10
+        - pytest-xdist
+        - pytest-timeout >=1.4.2,<3
+        - pytest-httpserver >=1.1.3,<2
+        - cwltest >=2.7.20260814150058
         - rsync
+        - nodejs
+        - edit_distance
+        - util-linux  # for the "rev" command
+    files:
+      source:
+        - setup.cfg
     script:
-      - toil --help
-      - _toil_worker --help
-      - toil-cwl-runner --help
+      env:
+        TOIL_SKIP_ONLINE: "true"
+        TOIL_TEST_QUICK: "true"
+        TOIL_SKIP_DOCKER: "true"
+        TOIL_HISTORY: "0"
+      content: |
+        toil --help
+        _toil_worker --help
+        toil-cwl-runner --help
+        pytest -n auto --dist worksteal --durations=10 -k 'not (testVirtualEnv or testBuiltIn or test_retrieve_task_directory)' --pyargs toil.test
+        # testVirtualEnv: the Toil Conda package is not installed as a VirtualEnv
+        # testBuiltIn: tests are not run from a source checkout
+        # test_retrieve_task_directory: unknown failure reason
 
 about:
   summary: A scalable, efficient, cross-platform and easy-to-use workflow engine in pure Python

@@ -1,0 +1,24 @@
+From db7fe20d1f81496eab1130e532fc5560b49da498 Mon Sep 17 00:00:00 2001
+From: "Michael R. Crusoe" <michael.crusoe@gmail.com>
+Date: Wed, 30 Sep 2026 14:27:09 +0200
+Subject: [PATCH 5/5] Missing needs_docker
+
+---
+ src/toil/test/wdl/wdltoil_test.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/toil/test/wdl/wdltoil_test.py b/src/toil/test/wdl/wdltoil_test.py
+index 1c94e34fd..2d9f7447a 100644
+--- a/src/toil/test/wdl/wdltoil_test.py
++++ b/src/toil/test/wdl/wdltoil_test.py
+@@ -491,6 +491,7 @@ class TestWDL:
+             assert isinstance(result["url_to_file.first_line"], str)
+             assert result["url_to_file.first_line"] == "chr1\t248387328"
+ 
++    @needs_docker
+     def test_string_file_coercion(self, tmp_path: Path) -> None:
+         """
+         Test if input Files can be coerced to string and back.
+-- 
+2.47.3
+

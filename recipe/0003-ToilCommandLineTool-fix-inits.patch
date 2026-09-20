@@ -1,0 +1,29 @@
+From 8928efd3d23dec0475ce5db6412ab95c7240d8dd Mon Sep 17 00:00:00 2001
+From: "Michael R. Crusoe" <michael.crusoe@gmail.com>
+Date: Tue, 22 Sep 2026 17:13:28 +0200
+Subject: [PATCH 3/3] ToilCommandLineTool: fix inits
+
+---
+ src/toil/cwl/cwltoil.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/toil/cwl/cwltoil.py b/src/toil/cwl/cwltoil.py
+index d25c1794c..73810e921 100644
+--- a/src/toil/cwl/cwltoil.py
++++ b/src/toil/cwl/cwltoil.py
+@@ -1146,6 +1146,12 @@ class ToilTool:
+ class ToilCommandLineTool(ToilTool, cwltool.command_line_tool.CommandLineTool):
+     """Subclass the cwltool command line tool to provide the custom ToilPathMapper."""
+ 
++    def __init__(self, *args: Any, **kwargs: Any) -> None:
++        """
++        Init hook to set up member variables.
++        """
++        super().__init__(*args, **kwargs)
++
+     def _initialworkdir(
+         self, j: cwltool.job.JobBase | None, builder: cwltool.builder.Builder
+     ) -> None:
+-- 
+2.47.3
+
