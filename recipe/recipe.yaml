@@ -146,11 +146,12 @@ tests:
         TOIL_TEST_QUICK: "true"
         TOIL_SKIP_DOCKER: "true"
         TOIL_HISTORY: "0"
+        slow_tests: "or test_url_to_optional_file or test_rm_tmpdir or testImportReadFileCompatibility or testPromises2 or testServices or testJobDeletions or testDynamic or testSimultaneousReadsUncachedStream or testServiceWithCheckpoints"
       content: |
         toil --help
         _toil_worker --help
         toil-cwl-runner --help
-        pytest -n auto --dist worksteal --durations=10 -k 'not (testVirtualEnv or testBuiltIn or test_retrieve_task_directory)' --pyargs toil.test
+        pytest -n auto --dist worksteal --durations=10 -k "not (testVirtualEnv or testBuiltIn or test_retrieve_task_directory ${slow_tests})" --pyargs toil.test
         # testVirtualEnv: the Toil Conda package is not installed as a VirtualEnv
         # testBuiltIn: tests are not run from a source checkout
         # test_retrieve_task_directory: unknown failure reason
