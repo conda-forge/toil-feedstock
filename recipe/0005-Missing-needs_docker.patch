@@ -1,17 +1,73 @@
-From db7fe20d1f81496eab1130e532fc5560b49da498 Mon Sep 17 00:00:00 2001
+From f23ecbdb8bd385e0eebf58edf107c470726c620a Mon Sep 17 00:00:00 2001
 From: "Michael R. Crusoe" <michael.crusoe@gmail.com>
 Date: Wed, 30 Sep 2026 14:27:09 +0200
 Subject: [PATCH 5/5] Missing needs_docker
 
 ---
- src/toil/test/wdl/wdltoil_test.py | 1 +
- 1 file changed, 1 insertion(+)
+ src/toil/test/wdl/wdltoil_test.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/src/toil/test/wdl/wdltoil_test.py b/src/toil/test/wdl/wdltoil_test.py
-index 1c94e34fd..2d9f7447a 100644
+index 1c94e34fd..918bc8f73 100644
 --- a/src/toil/test/wdl/wdltoil_test.py
 +++ b/src/toil/test/wdl/wdltoil_test.py
-@@ -491,6 +491,7 @@ class TestWDL:
+@@ -153,6 +153,7 @@ class TestWDLConformance:
+         p.check_returncode()
+ 
+     @slow
++    @needs_docker
+     def test_unit_tests_v11(self, wdl_conformance_test_repo: Path) -> None:
+         # TODO: Using a branch lets Toil commits that formerly passed start to
+         # fail CI when the branch moves.
+@@ -189,6 +190,7 @@ class TestWDLConformance:
+         self.check(p2)
+ 
+     @slow
++    @needs_docker
+     def test_unit_tests_v12(self, wdl_conformance_test_repo: Path) -> None:
+         # TODO: Using a branch lets Toil commits that formerly passed start to
+         # fail CI when the branch moves.
+@@ -225,6 +227,7 @@ class TestWDLConformance:
+         self.check(p2)
+ 
+     @slow
++    @needs_docker
+     def test_single_unit_test(self, wdl_conformance_test_repo: Path) -> None:
+         """
+         Run a single WDL spec unit test.  Defaults to ``glob_task`` on WDL
+@@ -269,6 +272,7 @@ class TestWDLConformance:
+ 
+     # estimated running time: 10 minutes
+     @slow
++    @needs_docker
+     def test_conformance_tests_v10(self, wdl_conformance_test_repo: Path) -> None:
+         os.chdir(wdl_conformance_test_repo)
+         commands = [
+@@ -290,6 +294,7 @@ class TestWDLConformance:
+ 
+     # estimated running time: 10 minutes
+     @slow
++    @needs_docker
+     def test_conformance_tests_v11(self, wdl_conformance_test_repo: Path) -> None:
+         os.chdir(wdl_conformance_test_repo)
+         commands = [
+@@ -312,6 +317,7 @@ class TestWDLConformance:
+     # estimated running time: 10 minutes (once all the appropriate tests get
+     # marked as "development")
+     @slow
++    @needs_docker
+     def test_conformance_tests_development(
+         self, wdl_conformance_test_repo: Path
+     ) -> None:
+@@ -334,6 +340,7 @@ class TestWDLConformance:
+         self.check(p)
+ 
+     @slow
++    @needs_docker
+     def test_conformance_tests_integration(
+         self, wdl_conformance_test_repo: Path
+     ) -> None:
+@@ -491,6 +498,7 @@ class TestWDL:
              assert isinstance(result["url_to_file.first_line"], str)
              assert result["url_to_file.first_line"] == "chr1\t248387328"
  
