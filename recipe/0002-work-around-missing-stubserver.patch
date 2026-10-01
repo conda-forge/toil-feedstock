@@ -1,0 +1,69 @@
+From a1e5c54386e120ca6d7f093de891748d82158b24 Mon Sep 17 00:00:00 2001
+From: "Michael R. Crusoe" <michael.crusoe@gmail.com>
+Date: Tue, 22 Sep 2026 16:33:25 +0200
+Subject: [PATCH 2/3] work around missing stubserver
+
+---
+ src/toil/test/__init__.py               | 13 +++++++++++++
+ src/toil/test/jobStores/jobStoreTest.py |  5 ++++-
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/src/toil/test/__init__.py b/src/toil/test/__init__.py
+index feb491514..38f0606bd 100644
+--- a/src/toil/test/__init__.py
++++ b/src/toil/test/__init__.py
+@@ -971,6 +971,19 @@ def needs_fetchable_appliance(test_item: MT) -> MT:
+     else:
+         return test_item
+ 
++def needs_stubserver(test_item: MT) -> MT:
++    """
++    Decorate classes or methods that depend on the abandoned stubserver package
++    """
++    test_item = _mark_test("rsync", test_item)
++    try:
++        import stubserver
++        str(stubserver)
++    except ImportError:
++        return unittest.skip("stubserver needs to be installed to run this test.")(test_item)
++    return test_item
++
++
+ 
+ def integrative(test_item: MT) -> MT:
+     """
+diff --git a/src/toil/test/jobStores/jobStoreTest.py b/src/toil/test/jobStores/jobStoreTest.py
+index b1e6b3cac..49cef9c68 100644
+--- a/src/toil/test/jobStores/jobStoreTest.py
++++ b/src/toil/test/jobStores/jobStoreTest.py
+@@ -32,7 +32,6 @@ from typing import Any, Callable
+ from urllib.request import Request, urlopen
+ 
+ import pytest
+-from stubserver import FTPStubServer
+ import edit_distance
+ 
+ from toil.common import Config
+@@ -55,6 +54,7 @@ from toil.test import (
+     needs_encryption,
+     needs_google_project,
+     needs_google_storage,
++    needs_stubserver,
+     slow,
+ )
+ 
+@@ -1080,8 +1080,11 @@ class AbstractJobStoreTest:
+             finally:
+                 http.server_close()
+ 
++        @needs_stubserver
+         def testImportFtpFile(self):
+             """Test importing a file over FTP"""
++            from stubserver import FTPStubServer
++
+             ftpfile = {"name": "foo", "content": "foo bar baz qux"}
+             ftp = FTPStubServer(0)
+             ftp.run()
+-- 
+2.47.3
+
