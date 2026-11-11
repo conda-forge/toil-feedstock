@@ -12,12 +12,6 @@ package:
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
   sha256: 5469d45e06e65d6ffadfc22918952460f80da4611ec5318a5de62b6192db2f16
-  patches:
-    - 0001-Avoid-AssertionError-Could-not-determine-AWS-availab.patch
-    - 0002-work-around-missing-stubserver.patch
-    - 0003-ToilCommandLineTool-fix-inits.patch
-    - 0004-count_cpu-support-cgroups-v2-default-maximum-bandwid.patch
-    - 0005-Missing-needs_docker.patch
 
 build:
   number: 0
